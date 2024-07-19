@@ -107,4 +107,50 @@ public class EmployeeServiceImpl implements EmployeeService {
         //使用 mybatis 的分页插件 PageHelper 来简化分页代码的开发。底层基于 mybatis 的拦截器实现。
         return new PageResult(total,result);
     }
+
+    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     */
+    @Override
+    public void startOrStop(Integer status, long id) {
+        //提高update的复用性，根据传入数据，动态sql。
+/**
+ * Employee em = new Employee();
+ *     em.setStatus(status);
+ *     em.setId(id);
+ */
+        Employee employee = Employee//使用builder，@Builder注解
+                .builder()
+                .status(status)
+                .id(id)
+                .build();
+        employeeMapper.update(employee);
+
+    }
+
+    @Override
+    public Employee getById(long id) {
+        Employee employee = employeeMapper.getById(id);
+        employee.setPassword("****");//给前端显示*
+        return employee;
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     */
+    @Override
+    public void update(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        //属性copy即可
+        BeanUtils.copyProperties(employeeDTO,employee);
+        //ThreadLocal，获取当前修改的用户
+        employee.setUpdateTime(LocalDateTime.now());
+        employee.setUpdateUser(BaseContext.getCurrentId());
+
+        employeeMapper.update(employee);
+
+    }
 }

@@ -97,4 +97,47 @@ public class EmployeeController {
         return Result.success(pageResult);//后端统一返回
     }
 
+    /**
+     * 启用禁用员工账号
+     * @param status
+     * @param id
+     * @return
+     */
+    @ApiOperation("启用禁用员工账号")
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable Integer status,long id){
+        //路径传参，加上@PathVariable 注解
+        log.info("启用禁用员工账号:{},{}",status,id);
+        employeeService.startOrStop(status,id);//需要去service层中定义startOrStop
+        return Result.success();
+    }
+
+    /**
+     * 根据id查询员工信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ApiOperation("根据id查询员工信息")
+    public Result<Employee> getById(@PathVariable long id){
+        Employee employee = employeeService.getById(id);
+        return Result.success(employee);
+
+    }
+
+    /**
+     * 编辑员工信息
+     * @param employeeDTO
+     * @return
+     */
+    @PutMapping
+    @ApiOperation("编辑员工信息")
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        //之前新增员工使用的DTO，现在也可用
+        log.info("编辑员工信息:{}",employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+
+    }
+
 }

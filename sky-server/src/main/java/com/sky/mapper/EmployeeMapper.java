@@ -29,4 +29,10 @@ public interface EmployeeMapper {
      * @return
      */
     Page<Employee> pageQuery(EmployeePageQueryDTO employeePageQueryDTO);
+
+    void update(Employee employee);
+
+    //简单的sql，直接用注解
+    @Select("SELECT * FROM employee where id = #{id}")
+    Employee getById(long id);
 }
