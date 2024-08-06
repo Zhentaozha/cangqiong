@@ -9,6 +9,6 @@ sky:
 
   alioss:
     endpoint: oss-cn-beijing.aliyuncs.com
-    access-key-id: LTAI5tRU1CemuYYMkvPTjrFc
+    access-key-id:  LTAI5tRU1CemuYYMkvPTjrFc
     access-key-secret:
     bucket-name: sky-itmine
